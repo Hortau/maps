@@ -5,10 +5,12 @@ require Pod::Executable.execute_command('node', ['-p',
     {paths: [process.argv[1]]},
   )', __dir__]).strip
 
-platform :ios, '13.4'
+platform :ios, 12.4
 prepare_react_native_project!
 
 $RNMapboxMapsImpl = 'mapbox'
+$RNMapboxMapsVersion = '= 11.1.0'
+
 if ENV['RNMBX11']
   $RNMapboxMapsVersion = '= 11.1.0'
 end
@@ -113,6 +115,7 @@ target 'RNMapboxGLExample' do
         :mac_catalyst_enabled => false
       )
       $RNMapboxMaps.post_install(installer)
+      __apply_Xcode_12_5_M1_post_install_workaround(installer)
     end
   else
     # CI configuration
